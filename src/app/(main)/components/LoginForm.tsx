@@ -1,5 +1,7 @@
 import SocialLogin from "./SocialLogin";
 import FormFields from "./FormFields";
+import { useRouter } from "next/navigation";
+import SubmitButton from "./SubmitButton";
 
 type Props = {
   showPassword: boolean;
@@ -16,6 +18,7 @@ const LoginForm = ({
   formLogin,
   handleSubmit,
 }: Props) => {
+  const router = useRouter();
   return (
     <form
       className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl"
@@ -25,14 +28,16 @@ const LoginForm = ({
       <div className="flex items-center justify-center mb-8">
         <div className="bg-black/30 backdrop-blur-sm rounded-full p-1 border border-white/10">
           <button
+            onClick={() => router.push("/login")}
             type="button"
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white/20 text-white shadow-lg`}
+            className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white/20 text-white shadow-lg cursor-pointer`}
           >
             Sign In
           </button>
           <button
+            onClick={() => router.push("/register")}
             type="button"
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 text-white/70 hover:text-white`}
+            className={`px-6 py-2 cursor-pointer rounded-full text-sm font-medium transition-all duration-300 text-white/70 hover:text-white`}
           >
             Sign Up
           </button>
@@ -65,12 +70,7 @@ const LoginForm = ({
       </div>
 
       {/* Submit Button */}
-      <button
-        type="submit"
-        className="w-full mt-8 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] cursor-pointer"
-      >
-        Sign In
-      </button>
+      <SubmitButton text="Sign In" />
 
       {/* Divider */}
       <div className="flex items-center my-6">
