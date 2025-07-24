@@ -3,6 +3,7 @@ import { useState } from "react";
 import LoginForm from "../../components/LoginForm";
 import axiosInstance from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
+import { showError, showSuccess } from "@/lib/sonnerToast";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,13 +19,14 @@ const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post("/api/users/login", formLogin);
-      console.log(response);
+      const res = await axiosInstance.post("/api/users/login", formLogin);
+      console.log(res.data.message);
+      showSuccess(res.data.message);
     } catch (error) {
       const err = error as AxiosError<{ errors: string }>;
       const errorMessage =
         err.response?.data?.errors || "Login failed. Please try again.";
-      console.log(errorMessage);
+      showError(errorMessage);
     }
   };
 
