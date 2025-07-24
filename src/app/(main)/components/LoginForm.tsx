@@ -59,12 +59,12 @@ const LoginForm = ({
       />
 
       {/* Remember & Forgot */}
-      <div className="flex items-center justify-between mt-6 text-sm">
-        <label className="flex items-center text-white/70">
-          <input type="checkbox" className="mr-2 rounded" />
-          Remember me
-        </label>
-        <button className="text-white/70 hover:text-white transition-colors cursor-pointer">
+      <div className="flex items-center justify-end mt-6 text-sm">
+        <button
+          type="button"
+          onClick={() => router.push("/reset-password-otp")}
+          className="text-white/70 hover:text-white transition-colors cursor-pointer"
+        >
           Forgot password?
         </button>
       </div>
