@@ -8,6 +8,7 @@ import { useShallow } from "zustand/shallow";
 import PremiumGlassLoader from "@/components/LoadingAnimations";
 import StatsCard from "../components/StatsCard";
 import RecentBookings from "../components/RecentBookings";
+import { showConfirm } from "@/lib/sonnerToast";
 
 const AdminDashboard: React.FC = () => {
   const router = useRouter();
@@ -40,7 +41,17 @@ const AdminDashboard: React.FC = () => {
         {/* Main Content */}
         <div className="flex-1 min-h-screen">
           {/* Top Bar */}
-          <TopBar user={user!} logout={handleLogout} />
+          <TopBar
+            user={user!}
+            logout={() =>
+              showConfirm(
+                "Logout",
+                "Are you sure want to logout?",
+                handleLogout,
+                "Logout"
+              )
+            }
+          />
           {/* Dashboard Content */}
           <div className="p-6 space-y-6">
             {/* Stats Cards */}

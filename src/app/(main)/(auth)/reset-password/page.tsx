@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import AuthForm from "../../components/AuthForm";
 import { Eye, EyeOff, KeyIcon, Lock, Mail } from "lucide-react";
-import { showError, showSuccess } from "@/lib/sonnerToast";
-import { AxiosError } from "axios";
+import { showSuccess } from "@/lib/sonnerToast";
 import axiosInstance from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
+import { isErrorResponse } from "@/utils/error-response";
 
 const ResetPasswordPage = () => {
   const router = useRouter();
@@ -33,17 +33,7 @@ const ResetPasswordPage = () => {
       showSuccess(res.data.message);
       router.push("/login");
     } catch (error) {
-      console.log("Payload:", {
-        otp: parseInt(resetPassword.otp),
-        email: resetPassword.email,
-        newPassword: resetPassword.newPassword,
-      });
-      const err = error as AxiosError<{ errors: string }>;
-      const errorMessage =
-        err.response?.data?.errors ||
-        "Reset Password failed. Please try again.";
-      showError(errorMessage);
-      console.log(err.response);
+      isErrorResponse(error, "Reset Password Failed. Please try again.");
     }
   };
 

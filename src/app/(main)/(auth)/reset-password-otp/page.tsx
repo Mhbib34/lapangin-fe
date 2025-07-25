@@ -4,9 +4,9 @@ import { useState } from "react";
 import AuthForm from "../../components/AuthForm";
 import { Mail } from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
-import { showError, showSuccess } from "@/lib/sonnerToast";
-import { AxiosError } from "axios";
+import { showSuccess } from "@/lib/sonnerToast";
 import { useRouter } from "next/navigation";
+import { isErrorResponse } from "@/utils/error-response";
 
 const SendResetPasswordOtp = () => {
   const [email, setEmail] = useState("");
@@ -19,11 +19,10 @@ const SendResetPasswordOtp = () => {
       showSuccess(res.data.message);
       router.push("/reset-password");
     } catch (error) {
-      const err = error as AxiosError<{ errors: string }>;
-      const errorMessage =
-        err.response?.data?.errors ||
-        "Send Reset Password Otp Failed. Please try again.";
-      showError(errorMessage);
+      isErrorResponse(
+        error,
+        "Send reset password otp failed. Please try again."
+      );
     }
   };
   return (
