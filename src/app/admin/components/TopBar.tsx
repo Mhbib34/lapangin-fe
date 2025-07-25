@@ -23,19 +23,6 @@ const TopBar = ({ user, logout }: Props) => {
         </div>
 
         <div className="flex items-center space-x-4">
-          {/* Search Bar */}
-          <div className="relative">
-            <Search
-              size={16}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50"
-            />
-            <input
-              type="text"
-              placeholder="Cari..."
-              className="w-64 pl-10 pr-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
-            />
-          </div>
-
           {/* Notifications */}
           <button className="relative p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all">
             <Bell size={20} />

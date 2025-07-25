@@ -40,10 +40,10 @@ const SideBar = ({ sidebarCollapsed, setSidebarCollapsed }: SideBarProps) => {
       active: pathName === "/admin/bookings",
     },
     {
-      path: "/admin/venues",
+      path: "/admin/lapangan",
       label: "Lapangan",
       icon: <MapPin size={20} />,
-      active: pathName === "/admin/venues",
+      active: pathName === "/admin/lapangan",
     },
     {
       path: "/admin/users",
