@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import RegisterForm from "../../components/RegisterForm";
-import { showError, showSuccess } from "@/lib/sonnerToast";
+import { showSuccess } from "@/lib/sonnerToast";
+import { isErrorResponse } from "@/utils/error-response";
 import axiosInstance from "@/lib/axiosInstance";
-import { AxiosError } from "axios";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,10 +25,7 @@ const RegisterPage = () => {
       console.log(res.data.message);
       showSuccess(res.data.message);
     } catch (error) {
-      const err = error as AxiosError<{ errors: string }>;
-      const errorMessage =
-        err.response?.data?.errors || "Register failed. Please try again.";
-      showError(errorMessage);
+      isErrorResponse(error, "Register failed. Please try again.");
     }
   };
   return (

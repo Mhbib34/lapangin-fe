@@ -2,10 +2,10 @@
 import { useState } from "react";
 import LoginForm from "../../components/LoginForm";
 import axiosInstance from "@/lib/axiosInstance";
-import { AxiosError } from "axios";
-import { showError, showSuccess } from "@/lib/sonnerToast";
+import { showSuccess } from "@/lib/sonnerToast";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
+import { isErrorResponse } from "@/utils/error-response";
 
 const LoginPage = () => {
   const refetchUser = useAuthStore((state) => state.fetchUser);
@@ -32,10 +32,7 @@ const LoginPage = () => {
         router.push("/");
       }
     } catch (error) {
-      const err = error as AxiosError<{ errors: string }>;
-      const errorMessage =
-        err.response?.data?.errors || "Login failed. Please try again.";
-      showError(errorMessage);
+      isErrorResponse(error, "Login failed. Please try again.");
     }
   };
 

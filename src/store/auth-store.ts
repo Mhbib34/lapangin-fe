@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import axiosInstance from "@/lib/axiosInstance";
+import { isErrorResponse } from "@/utils/error-response";
+import { showSuccess } from "@/lib/sonnerToast";
 
 type User = {
   id: string;
@@ -28,18 +30,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
       });
       set({ user: res.data.data, loading: false });
       console.log(res.data.data);
-
       //eslint-disable-next-line
-    } catch (err) {
+    } catch (error) {
       set({ user: null, loading: false });
     }
   },
   logout: async () => {
     try {
-      await axiosInstance.delete("/api/users", { withCredentials: true });
+      const res = await axiosInstance.delete("/api/users", {
+        withCredentials: true,
+      });
       set({ user: null });
-    } catch (err) {
-      console.error("Logout gagal", err);
+      showSuccess(res.data.message);
+    } catch (error) {
+      isErrorResponse(error, "Logout failed. Please try again.");
     }
   },
 }));
