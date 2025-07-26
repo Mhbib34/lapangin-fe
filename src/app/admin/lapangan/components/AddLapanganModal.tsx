@@ -14,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { Field } from "@/store/field-store";
+import InputForm from "@/components/common/InputForm";
 
 const AddLapanganModal = ({
   handleSubmit,
@@ -38,36 +39,30 @@ const AddLapanganModal = ({
     >
       {/* Name and Location Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="relative">
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter field name"
-            defaultValue={editData?.name || ""}
-            className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
-          />
+        <InputForm
+          defaultValue={editData?.name || ""}
+          name="name"
+          type="text"
+          placeholder="Enter field name"
+        >
           <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
-        </div>
-        <div className="relative">
-          <input
-            type="text"
-            name="location"
-            placeholder="Enter field location"
-            defaultValue={editData?.location || ""}
-            className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
-          />
+        </InputForm>
+        <InputForm
+          defaultValue={editData?.location || ""}
+          name="location"
+          type="text"
+          placeholder="Enter field location"
+        >
           <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
-        </div>
-        <div className="relative">
-          <input
-            type="text"
-            name="category"
-            placeholder="Enter field category"
-            defaultValue={editData?.category || ""}
-            className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
-          />
+        </InputForm>
+        <InputForm
+          defaultValue={editData?.category || ""}
+          name="category"
+          type="text"
+          placeholder="Enter "
+        >
           <Tag className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
-        </div>
+        </InputForm>
       </div>
 
       {/* Capacity and Price Row */}
@@ -120,16 +115,14 @@ const AddLapanganModal = ({
       </div>
 
       {/* Operational Hour */}
-      <div className="relative">
-        <input
-          type="text"
-          name="operationalHour"
-          placeholder="e.g., 08:00 - 22:00"
-          defaultValue={editData?.operationalHour || ""}
-          className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
-        />
+      <InputForm
+        defaultValue={editData?.operationalHour || ""}
+        name="operationalHour"
+        type="text"
+        placeholder="Enter field operational hour"
+      >
         <Clock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
-      </div>
+      </InputForm>
 
       {/* Description */}
       <div className="relative">
