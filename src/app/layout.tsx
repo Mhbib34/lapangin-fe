@@ -32,6 +32,7 @@ export default function RootLayout({
         <Toaster richColors closeButton />
         <AuthInitializer />
         {children}
+        <div id="modal-root" />
       </body>
     </html>
   );
