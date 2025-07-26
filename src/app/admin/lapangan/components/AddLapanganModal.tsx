@@ -13,20 +13,25 @@ import {
   Tag,
   Users,
 } from "lucide-react";
+import { Field } from "@/store/field-store";
 
 const AddLapanganModal = ({
   handleSubmit,
   setShowAddModal,
   isSubmitting,
+  editData = null,
 }: {
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   isSubmitting: boolean;
+  editData?: Field | null;
 }) => {
+  const isEditMode = editData !== null;
+
   return (
     <AdminForm
       title="Lapangan"
-      titleText="Tambahkan lapangan baru"
+      titleText={isEditMode ? "Edit lapangan" : "Tambahkan lapangan baru"}
       handleSubmit={handleSubmit}
       isSubmitting={isSubmitting}
       setShowAddModal={setShowAddModal}
@@ -38,6 +43,7 @@ const AddLapanganModal = ({
             type="text"
             name="name"
             placeholder="Enter field name"
+            defaultValue={editData?.name || ""}
             className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
           />
           <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
@@ -47,6 +53,7 @@ const AddLapanganModal = ({
             type="text"
             name="location"
             placeholder="Enter field location"
+            defaultValue={editData?.location || ""}
             className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
           />
           <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
@@ -56,6 +63,7 @@ const AddLapanganModal = ({
             type="text"
             name="category"
             placeholder="Enter field category"
+            defaultValue={editData?.category || ""}
             className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
           />
           <Tag className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
@@ -70,6 +78,7 @@ const AddLapanganModal = ({
             name="capacity"
             placeholder="Enter field capacity"
             min="1"
+            defaultValue={editData?.capacity || ""}
             className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
           />
           <Users className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
@@ -81,6 +90,7 @@ const AddLapanganModal = ({
             placeholder="Enter field price"
             min="0"
             step="1000"
+            defaultValue={editData?.pricePerHour || ""}
             className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
           />
           <DollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
@@ -88,6 +98,7 @@ const AddLapanganModal = ({
         <div className="relative">
           <select
             name="status"
+            defaultValue={editData?.status || ""}
             className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 pr-12 text-white focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300 appearance-none"
           >
             <option value="" className="bg-gray-800 text-white">
@@ -114,6 +125,7 @@ const AddLapanganModal = ({
           type="text"
           name="operationalHour"
           placeholder="e.g., 08:00 - 22:00"
+          defaultValue={editData?.operationalHour || ""}
           className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
         />
         <Clock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
@@ -126,6 +138,7 @@ const AddLapanganModal = ({
           placeholder="Enter field description..."
           rows={4}
           maxLength={500}
+          defaultValue={editData?.description || ""}
           className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300 resize-none"
         />
         <FileText className="absolute left-4 top-4 w-4 h-4 text-white/50" />
@@ -140,7 +153,15 @@ const AddLapanganModal = ({
           className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30 file:cursor-pointer focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
         />
         <ImageIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
+        {isEditMode && (
+          <p className="text-white/50 text-xs mt-1 ml-2">
+            Biarkan kosong jika tidak ingin mengubah gambar
+          </p>
+        )}
       </div>
+
+      {/* Hidden field for ID when editing */}
+      {isEditMode && <input type="hidden" name="id" value={editData.id} />}
     </AdminForm>
   );
 };

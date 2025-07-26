@@ -1,9 +1,16 @@
+import { showConfirm } from "@/lib/sonnerToast";
 import { Field } from "@/store/field-store";
-import { Clock, Edit, MapPin, Star, Trash2, Users } from "lucide-react";
+import { Clock, Edit, MapPin, Trash2, Users } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-const LapanganCard = ({ lapangan }: { lapangan: Field }) => {
+type Props = {
+  lapangan: Field;
+  removeLapangan: (id: string) => void;
+  editLapangan: (lapangan: Field) => void;
+};
+
+const LapanganCard = ({ lapangan, removeLapangan, editLapangan }: Props) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "ACTIVE":
@@ -16,6 +23,11 @@ const LapanganCard = ({ lapangan }: { lapangan: Field }) => {
         return "text-gray-400 bg-gray-400/20";
     }
   };
+
+  const handleEdit = () => {
+    editLapangan(lapangan);
+  };
+
   return (
     <div
       key={lapangan.id}
@@ -80,10 +92,23 @@ const LapanganCard = ({ lapangan }: { lapangan: Field }) => {
           </div>
 
           <div className="flex gap-2">
-            <button className="p-2 bg-blue-500/20 backdrop-blur-sm rounded-lg text-blue-200 hover:bg-blue-500/30 transition-colors">
+            <button
+              onClick={handleEdit}
+              className="p-2 bg-blue-500/20 backdrop-blur-sm rounded-lg text-blue-200 hover:bg-blue-500/30 transition-colors"
+            >
               <Edit size={18} />
             </button>
-            <button className="p-2 bg-red-500/20 backdrop-blur-sm rounded-lg text-red-200 hover:bg-red-500/30 transition-colors">
+            <button
+              onClick={() =>
+                showConfirm(
+                  "Apakah anda yakin?",
+                  lapangan.name,
+                  () => removeLapangan(lapangan.id),
+                  "Hapus"
+                )
+              }
+              className="p-2 bg-red-500/20 backdrop-blur-sm rounded-lg text-red-200 hover:bg-red-500/30 transition-colors"
+            >
               <Trash2 size={18} />
             </button>
           </div>

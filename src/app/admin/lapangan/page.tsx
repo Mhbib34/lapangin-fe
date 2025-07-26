@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Search, Plus, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import AddLapanganModal from "./components/AddLapanganModal";
 import { isErrorResponse } from "@/utils/error-response";
 import axiosInstance from "@/lib/axiosInstance";
@@ -8,10 +8,11 @@ import { showSuccess } from "@/lib/sonnerToast";
 import { useFieldStore } from "@/store/field-store";
 import { useShallow } from "zustand/shallow";
 import LapanganStatsCard from "./components/LapanganStatsCard";
-import LapanganCard from "./components/LapanganCard";
 import LapanganFilters from "./components/LapanganFilters";
 import LapanganSearch from "./components/LapanganSearch";
 import LapanganHeader from "./components/LapanganHeader";
+import LapanganCard from "./components/LapanganCard";
+import { Field } from "@/store/field-store";
 
 const DataLapanganPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,9 +21,12 @@ const DataLapanganPage = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [category, setCategory] = useState();
+  const [editData, setEditData] = useState<Field | null>(null);
+
   const { fields, fetchField } = useFieldStore(
     useShallow((s) => ({ fields: s.fields, fetchField: s.fetchField }))
   );
+
   const fetchCategory = async () => {
     try {
       const res = await axiosInstance.get("/api/categories");
@@ -42,19 +46,39 @@ const DataLapanganPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const formAddLapangan = new FormData(e.currentTarget);
+      const formData = new FormData(e.currentTarget);
 
-      const res = await axiosInstance.post("/api/fields", formAddLapangan, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // Check if we're in edit mode
+      const isEditMode = editData !== null;
+      const fieldId = formData.get("id") as string;
+
+      let res;
+      if (isEditMode && fieldId) {
+        // Update existing field
+        res = await axiosInstance.patch(`/api/fields/${fieldId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        // Create new field
+        res = await axiosInstance.post("/api/fields", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+
       showSuccess(res.data.message);
       setShowAddModal(false);
+      setEditData(null);
       fetchField();
       fetchCategory();
     } catch (error) {
-      isErrorResponse(error, "Add lapangan failed. Please try again.");
+      isErrorResponse(
+        error,
+        `${editData ? "Update" : "Add"} lapangan failed. Please try again.`
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -72,11 +96,36 @@ const DataLapanganPage = () => {
     return matchesSearch && matchesJenis && matchesStatus;
   });
 
+  const handleRemoveLapangan = async (id: string) => {
+    try {
+      const res = await axiosInstance.delete(`/api/fields/${id}`);
+      showSuccess(res.data.message);
+      fetchField();
+    } catch (error) {
+      isErrorResponse(error, "Delete lapangan failed. Please try again.");
+    }
+  };
+
+  const handleEditLapangan = (lapangan: Field) => {
+    setEditData(lapangan);
+    setShowAddModal(true);
+  };
+
+  const handleAddNew = () => {
+    setEditData(null);
+    setShowAddModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowAddModal(false);
+    setEditData(null);
+  };
+
   return (
     <>
       <div className="p-6 space-y-6">
         {/* Header */}
-        <LapanganHeader setShowAddModal={setShowAddModal} />
+        <LapanganHeader setShowAddModal={handleAddNew} />
 
         {/* Search and Filter */}
         <div className="backdrop-blur-xl bg-white/10 rounded-2xl border border-white/20 p-6 mb-8 shadow-xl">
@@ -104,7 +153,12 @@ const DataLapanganPage = () => {
         {/* Lapangan Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
           {filteredLapangan.map((lapangan) => (
-            <LapanganCard key={lapangan.id} lapangan={lapangan} />
+            <LapanganCard
+              key={lapangan.id}
+              lapangan={lapangan}
+              removeLapangan={handleRemoveLapangan}
+              editLapangan={handleEditLapangan}
+            />
           ))}
         </div>
 
@@ -126,8 +180,9 @@ const DataLapanganPage = () => {
       {showAddModal && (
         <AddLapanganModal
           handleSubmit={handleSubmit}
-          setShowAddModal={setShowAddModal}
+          setShowAddModal={handleCloseModal}
           isSubmitting={isSubmitting}
+          editData={editData}
         />
       )}
     </>
