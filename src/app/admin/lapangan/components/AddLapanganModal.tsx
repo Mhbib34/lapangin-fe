@@ -13,8 +13,8 @@ import {
   Tag,
   Users,
 } from "lucide-react";
-import { Field } from "@/store/field-store";
 import InputForm from "@/components/common/InputForm";
+import { Field } from "@/type/fields";
 
 const AddLapanganModal = ({
   handleSubmit,

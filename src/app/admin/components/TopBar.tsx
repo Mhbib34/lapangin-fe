@@ -1,13 +1,10 @@
-import { Bell, ChevronDown, ChevronUp, Search, User } from "lucide-react";
+import { Bell, ChevronDown, ChevronUp, User2 } from "lucide-react";
 import { useState } from "react";
 import ModalProfile from "./ModalProfile";
+import { User } from "@/type/user";
 
 type Props = {
-  user: {
-    name: string;
-    email: string;
-    isAccountVerified: boolean;
-  };
+  user: User;
   logout: () => void;
 };
 
@@ -37,7 +34,7 @@ const TopBar = ({ user, logout }: Props) => {
             className="flex items-center space-x-3 p-2 rounded-xl bg-white/10 hover:bg-white/20 cursor-pointer transition-all relative"
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <User size={16} />
+              <User2 size={16} />
             </div>
             <div className="hidden md:block">
               <p className="font-medium">{user?.name}</p>

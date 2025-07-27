@@ -2,14 +2,7 @@ import { create } from "zustand";
 import axiosInstance from "@/lib/axiosInstance";
 import { isErrorResponse } from "@/utils/error-response";
 import { showSuccess } from "@/lib/sonnerToast";
-
-type User = {
-  id: string;
-  email: string;
-  name: string;
-  isAccountVerified: boolean;
-  role: string;
-};
+import { User } from "@/type/user";
 
 type AuthStore = {
   user: User | null;
