@@ -1,4 +1,4 @@
-import { Field } from "@/store/field-store";
+import { Field } from "@/type/fields";
 import { MapPin, Users, Wrench, XOctagonIcon } from "lucide-react";
 import React from "react";
 

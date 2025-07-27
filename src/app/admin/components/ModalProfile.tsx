@@ -1,13 +1,12 @@
 import axiosInstance from "@/lib/axiosInstance";
 import { showSuccess } from "@/lib/sonnerToast";
+import { User } from "@/type/user";
 import { isErrorResponse } from "@/utils/error-response";
 import { CheckCircle, MailWarning, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type Props = {
-  user: {
-    isAccountVerified: boolean;
-  };
+  user: User;
   logout: () => void;
 };
 

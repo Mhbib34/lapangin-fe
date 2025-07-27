@@ -1,5 +1,5 @@
 import { showConfirm } from "@/lib/sonnerToast";
-import { Field } from "@/store/field-store";
+import { Field } from "@/type/fields";
 import { Clock, Edit, MapPin, Trash2, Users } from "lucide-react";
 import Image from "next/image";
 import React from "react";

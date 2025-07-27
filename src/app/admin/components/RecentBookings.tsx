@@ -1,3 +1,4 @@
+import { recentBookings } from "@/utils/admin";
 import { getStatusColor, getStatusText } from "@/utils/status";
 import {
   BarChart3,
@@ -12,40 +13,6 @@ import {
 import React from "react";
 
 const RecentBookings = () => {
-  const recentBookings = [
-    {
-      id: 1,
-      venue: "Lapangan A",
-      user: "John Doe",
-      date: "2025-07-26",
-      time: "08:00-10:00",
-      status: "confirmed",
-    },
-    {
-      id: 2,
-      venue: "Lapangan B",
-      user: "Jane Smith",
-      date: "2025-07-26",
-      time: "10:00-12:00",
-      status: "pending",
-    },
-    {
-      id: 3,
-      venue: "Lapangan C",
-      user: "Bob Wilson",
-      date: "2025-07-26",
-      time: "14:00-16:00",
-      status: "confirmed",
-    },
-    {
-      id: 4,
-      venue: "Lapangan A",
-      user: "Alice Brown",
-      date: "2025-07-27",
-      time: "16:00-18:00",
-      status: "cancelled",
-    },
-  ];
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
       {/* Recent Bookings */}

@@ -1,8 +1,6 @@
+import { category } from "@/type/category";
 import React from "react";
-type category = {
-  id: string;
-  name: string;
-};
+
 type Props = {
   filterJenis: string;
   setFilterJenis: React.Dispatch<React.SetStateAction<string>>;
