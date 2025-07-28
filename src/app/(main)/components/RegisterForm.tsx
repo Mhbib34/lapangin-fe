@@ -1,9 +1,9 @@
 "use client";
 import { Eye, EyeOff, Lock, Mail, User2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React from "react";
 import SocialLogin from "./SocialLogin";
 import SubmitButton from "./SubmitButton";
+import Link from "next/link";
 
 type Props = {
   showPassword: boolean;
@@ -25,7 +25,6 @@ const RegisterForm = ({
   formRegister,
   handleSubmit,
 }: Props) => {
-  const router = useRouter();
   return (
     <form
       className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl"
@@ -33,21 +32,21 @@ const RegisterForm = ({
     >
       {/* Toggle Buttons */}
       <div className="flex items-center justify-center mb-8">
-        <div className="bg-black/30 backdrop-blur-sm rounded-full p-1 border border-white/10">
-          <button
+        <div className="bg-black/30 backdrop-blur-sm rounded-full px-1 py-2 border border-white/10">
+          <Link
+            href="/login"
             type="button"
-            onClick={() => router.push("/login")}
             className={`px-6 py-2 cursor-pointer rounded-full text-sm font-medium transition-all duration-300 text-white/70 hover:text-white`}
           >
             Sign In
-          </button>
-          <button
+          </Link>
+          <Link
+            href="/register"
             type="button"
-            onClick={() => router.push("/register")}
             className={`px-6 py-2 cursor-pointer rounded-full text-sm font-medium transition-all duration-300 bg-white/20 text-white shadow-lg`}
           >
             Sign Up
-          </button>
+          </Link>
         </div>
       </div>
 

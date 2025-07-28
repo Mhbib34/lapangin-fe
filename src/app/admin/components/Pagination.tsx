@@ -96,9 +96,12 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav
-      className={`flex items-center justify-center space-x-2 ${className}`}
+      className={`flex items-center justify-center space-x-2 ${className} `}
       aria-label="Pagination Navigation"
     >
+      <span className="mr-2">
+        Page {currentPage} of {totalPages}
+      </span>
       {/* Previous Button */}
       <button
         onClick={handlePrevious}
