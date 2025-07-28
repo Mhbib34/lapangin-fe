@@ -45,7 +45,12 @@ const DataLapanganPage = () => {
   };
 
   useEffect(() => {
-    fetchFieldPage(currentPage, useDeboundedSearch);
+    fetchFieldPage(currentPage, {
+      name: useDeboundedSearch,
+      category: useDeboundedSearch,
+      location: useDeboundedSearch,
+    });
+
     fetchCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, useDeboundedSearch]);

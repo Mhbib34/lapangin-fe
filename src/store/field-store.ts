@@ -9,7 +9,10 @@ type FieldStore = {
   fetchField: () => Promise<void>;
   setFields: (fields: Field[]) => void;
   setFieldsPage: (fields: FieldPage) => void;
-  fetchFieldPage: (page: number, name?: string) => Promise<void>;
+  fetchFieldPage: (
+    page: number,
+    keyword?: { name?: string; location?: string; category?: string }
+  ) => Promise<void>;
 };
 
 export const useFieldStore = create<FieldStore>((set) => ({
@@ -38,19 +41,31 @@ export const useFieldStore = create<FieldStore>((set) => ({
     }
   },
 
-  fetchFieldPage: async (page: number = 1, name?: string) => {
+  fetchFieldPage: async (
+    page: number = 1,
+    keyword?: { name?: string; location?: string; category?: string }
+  ) => {
     try {
-      const params: { page: number; size: number; name?: string } = {
+      const params: {
+        page: number;
+        size: number;
+        name?: string;
+        location?: string;
+        category?: string;
+      } = {
         page,
         size: 9,
       };
-      if (name?.trim()) params.name = name;
+
+      if (keyword?.name?.trim()) params.name = keyword.name;
+      if (keyword?.location?.trim()) params.location = keyword.location;
+      if (keyword?.category?.trim()) params.category = keyword.category;
+
       const res = await axiosInstance.get(`/api/fields`, {
         params,
         withCredentials: true,
       });
       set({ fieldsPage: res.data, loading: false });
-      console.log(res.data.data);
     } catch (error) {
       set({
         fieldsPage: {
