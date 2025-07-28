@@ -1,7 +1,7 @@
 import SocialLogin from "./SocialLogin";
 import FormFields from "./FormFields";
-import { useRouter } from "next/navigation";
 import SubmitButton from "./SubmitButton";
+import Link from "next/link";
 
 type Props = {
   showPassword: boolean;
@@ -18,7 +18,6 @@ const LoginForm = ({
   formLogin,
   handleSubmit,
 }: Props) => {
-  const router = useRouter();
   return (
     <form
       className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl"
@@ -26,21 +25,21 @@ const LoginForm = ({
     >
       {/* Toggle Buttons */}
       <div className="flex items-center justify-center mb-8">
-        <div className="bg-black/30 backdrop-blur-sm rounded-full p-1 border border-white/10">
-          <button
-            onClick={() => router.push("/login")}
+        <div className="bg-black/30 backdrop-blur-sm rounded-full px-1 py-2 border border-white/10">
+          <Link
+            href="/login"
             type="button"
             className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white/20 text-white shadow-lg cursor-pointer`}
           >
             Sign In
-          </button>
-          <button
-            onClick={() => router.push("/register")}
+          </Link>
+          <Link
+            href="/register"
             type="button"
             className={`px-6 py-2 cursor-pointer rounded-full text-sm font-medium transition-all duration-300 text-white/70 hover:text-white`}
           >
             Sign Up
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -60,13 +59,13 @@ const LoginForm = ({
 
       {/* Remember & Forgot */}
       <div className="flex items-center justify-end mt-6 text-sm">
-        <button
+        <Link
+          href="/reset-password-otp"
           type="button"
-          onClick={() => router.push("/reset-password-otp")}
           className="text-white/70 hover:text-white transition-colors cursor-pointer"
         >
           Forgot password?
-        </button>
+        </Link>
       </div>
 
       {/* Submit Button */}

@@ -14,16 +14,13 @@ import LapanganHeader from "./components/LapanganHeader";
 import LapanganCard from "./components/LapanganCard";
 import Pagination from "../components/Pagination";
 import { useDebouncedValue } from "@/utils/useDebounce";
-import { category } from "@/type/category";
 import { Field } from "@/type/fields";
 
 const DataLapanganPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterJenis, setFilterJenis] = useState("semua");
   const [filterStatus, setFilterStatus] = useState("semua");
   const [showAddModal, setShowAddModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [category, setCategory] = useState<category[]>([]);
   const [editData, setEditData] = useState<Field | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const useDeboundedSearch = useDebouncedValue(searchTerm, 500);
@@ -35,23 +32,12 @@ const DataLapanganPage = () => {
     }))
   );
 
-  const fetchCategory = async () => {
-    try {
-      const res = await axiosInstance.get("/api/categories");
-      setCategory(res.data.data);
-    } catch (error) {
-      console.error("Gagal mengambil data category", error);
-    }
-  };
-
   useEffect(() => {
     fetchFieldPage(currentPage, {
       name: useDeboundedSearch,
       category: useDeboundedSearch,
       location: useDeboundedSearch,
     });
-
-    fetchCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, useDeboundedSearch]);
 
@@ -78,7 +64,6 @@ const DataLapanganPage = () => {
       setShowAddModal(false);
       setEditData(null);
       fetchFieldPage(currentPage);
-      fetchCategory();
     } catch (error) {
       isErrorResponse(
         error,
@@ -90,11 +75,9 @@ const DataLapanganPage = () => {
   };
 
   const filteredLapangan = fieldsPage.data.filter((lapangan) => {
-    const jenisMatch =
-      filterJenis === "semua" || lapangan.category === filterJenis;
     const statusMatch =
       filterStatus === "semua" || lapangan.status === filterStatus;
-    return jenisMatch && statusMatch;
+    return statusMatch;
   });
 
   const handleRemoveLapangan = async (id: string) => {
@@ -134,11 +117,8 @@ const DataLapanganPage = () => {
               setSearchTerm={setSearchTerm}
             />
             <LapanganFilters
-              filterJenis={filterJenis}
-              setFilterJenis={setFilterJenis}
               filterStatus={filterStatus}
               setFilterStatus={setFilterStatus}
-              categorys={category}
             />
           </div>
         </div>

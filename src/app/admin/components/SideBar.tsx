@@ -8,7 +8,8 @@ import {
   Settings,
   Users,
 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 type SideBarProps = {
@@ -25,7 +26,6 @@ interface SidebarItem {
 
 const SideBar = ({ sidebarCollapsed, setSidebarCollapsed }: SideBarProps) => {
   const pathName = usePathname();
-  const router = useRouter();
   const sidebarItems: SidebarItem[] = [
     {
       path: "/admin/dashboard",
@@ -103,9 +103,9 @@ const SideBar = ({ sidebarCollapsed, setSidebarCollapsed }: SideBarProps) => {
           {/* Navigation */}
           <nav className="p-4 space-y-2">
             {sidebarItems.map((item, index) => (
-              <button
+              <Link
+                href={item.path}
                 key={index}
-                onClick={() => router.push(item.path)}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                   item.active
                     ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-white/20 shadow-lg"
@@ -132,7 +132,7 @@ const SideBar = ({ sidebarCollapsed, setSidebarCollapsed }: SideBarProps) => {
                     {item.label}
                   </span>
                 )}
-              </button>
+              </Link>
             ))}
           </nav>
 

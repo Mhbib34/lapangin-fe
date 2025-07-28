@@ -4,4 +4,5 @@ export type User = {
   name: string;
   isAccountVerified: boolean;
   role: string;
+  username: string;
 };
