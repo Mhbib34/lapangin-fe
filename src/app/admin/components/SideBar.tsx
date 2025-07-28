@@ -74,7 +74,7 @@ const SideBar = ({ sidebarCollapsed, setSidebarCollapsed }: SideBarProps) => {
   return (
     <div
       className={`${
-        sidebarCollapsed ? "w-24" : "w-64"
+        sidebarCollapsed ? "md:w-24 hidden md:block" : "w-64"
       } transition-all duration-300 ease-in-out`}
     >
       <div className="fixed top-0 left-0 h-full bg-white/10 backdrop-blur-lg border-r border-white/20 shadow-2xl z-30">

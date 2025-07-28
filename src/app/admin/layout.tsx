@@ -39,6 +39,8 @@ export default function AuthLayout({
         />
         <div className="min-h-screen flex-1">
           <TopBar
+            sidebarCollapsed={sidebarCollapsed}
+            setSidebarCollapsed={setSidebarCollapsed}
             user={user!}
             logout={() =>
               showConfirm(

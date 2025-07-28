@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, ChevronUp, User2 } from "lucide-react";
+import { Bell, ChevronDown, ChevronUp, User2, MenuIcon } from "lucide-react";
 import { useState } from "react";
 import ModalProfile from "./ModalProfile";
 import { User } from "@/type/user";
@@ -6,14 +6,26 @@ import { User } from "@/type/user";
 type Props = {
   user: User;
   logout: () => void;
+  sidebarCollapsed: boolean;
+  setSidebarCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const TopBar = ({ user, logout }: Props) => {
+const TopBar = ({
+  user,
+  logout,
+  sidebarCollapsed,
+  setSidebarCollapsed,
+}: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="sticky top-0 z-20 bg-white/10 backdrop-blur-lg border-b border-white/20 shadow-lg">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center space-x-4">
+          <MenuIcon
+            size={20}
+            className="md:hidden"
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+          />
           <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
             Dashboard
           </h2>
