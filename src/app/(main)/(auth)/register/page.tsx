@@ -5,6 +5,7 @@ import { showSuccess } from "@/lib/sonnerToast";
 import { isErrorResponse } from "@/utils/error-response";
 import axiosInstance from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
+import PremiumGlassLoader from "@/components/LoadingAnimations";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -14,7 +15,9 @@ const RegisterPage = () => {
     password: "",
     name: "",
     username: "",
+    phone: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormRegister({ ...formRegister, [e.target.name]: e.target.value });
@@ -22,15 +25,21 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await axiosInstance.post("/api/users", formRegister);
       console.log(res.data.message);
       showSuccess(res.data.message);
       router.push("/login");
     } catch (error) {
+      setIsLoading(false);
       isErrorResponse(error, "Register failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) return <PremiumGlassLoader />;
   return (
     <RegisterForm
       showPassword={showPassword}

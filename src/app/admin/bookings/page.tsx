@@ -121,8 +121,6 @@ const DataBookingPage = () => {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <AdminStatsCard bookings={bookings.data} />
       {/* Search and Filter */}
       <BookingSearchAndFilter
         searchTerm={searchTerm}
@@ -136,38 +134,44 @@ const DataBookingPage = () => {
       />
 
       {/* Booking List */}
-      <div className="space-y-4">
-        {filteredBookings.map((booking) => {
-          const statusConfig = getStatusConfig(booking.status);
-          const StatusIcon = statusConfig.icon;
-          const duration = FormatAdmin.calculateDuration(
-            booking.startTime,
-            booking.endTime
-          );
-          const total = FormatAdmin.calculateTotal(booking);
+      {filteredBookings.length > 0 && (
+        <>
+          {/* Stats Cards */}
+          <AdminStatsCard bookings={bookings.data} />
+          <div className="space-y-4">
+            {filteredBookings.map((booking) => {
+              const statusConfig = getStatusConfig(booking.status);
+              const StatusIcon = statusConfig.icon;
+              const duration = FormatAdmin.calculateDuration(
+                booking.startTime,
+                booking.endTime
+              );
+              const total = FormatAdmin.calculateTotal(booking);
 
-          return (
-            <BookingsCard
-              key={booking.bookingId}
-              updateBookingStatus={updateBookingStatus}
-              booking={booking}
-              setSelectedBooking={setSelectedBooking}
-              setShowDetailModal={setShowDetailModal}
-              total={total}
-              duration={duration}
-              statusConfig={statusConfig}
-            >
-              <StatusIcon size={14} />
-            </BookingsCard>
-          );
-        })}
-      </div>
+              return (
+                <BookingsCard
+                  key={booking.bookingId}
+                  updateBookingStatus={updateBookingStatus}
+                  booking={booking}
+                  setSelectedBooking={setSelectedBooking}
+                  setShowDetailModal={setShowDetailModal}
+                  total={total}
+                  duration={duration}
+                  statusConfig={statusConfig}
+                >
+                  <StatusIcon size={14} />
+                </BookingsCard>
+              );
+            })}
+          </div>
 
-      <Pagination
-        currentPage={bookings.paging.current_page}
-        totalPages={bookings.paging.total_page}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
+          <Pagination
+            currentPage={bookings.paging.current_page}
+            totalPages={bookings.paging.total_page}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        </>
+      )}
 
       {filteredBookings.length === 0 && (
         <div className="text-center py-12">

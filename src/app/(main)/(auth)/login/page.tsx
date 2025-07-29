@@ -6,6 +6,7 @@ import { showSuccess } from "@/lib/sonnerToast";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
 import { isErrorResponse } from "@/utils/error-response";
+import PremiumGlassLoader from "@/components/LoadingAnimations";
 
 const LoginPage = () => {
   const refetchUser = useAuthStore((state) => state.fetchUser);
@@ -15,6 +16,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormLogin({ ...formLogin, [e.target.name]: e.target.value });
@@ -22,6 +24,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await axiosInstance.post("/api/users/login", formLogin);
       showSuccess(res.data.message);
@@ -32,9 +35,16 @@ const LoginPage = () => {
         router.push("/");
       }
     } catch (error) {
+      setIsLoading(false);
       isErrorResponse(error, "Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <PremiumGlassLoader />;
+  }
 
   return (
     <LoginForm

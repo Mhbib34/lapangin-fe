@@ -123,7 +123,9 @@ const DataLapanganPage = () => {
           </div>
         </div>
 
-        <LapanganStatsCard fields={filteredLapangan} />
+        {filteredLapangan.length > 0 && (
+          <LapanganStatsCard fields={filteredLapangan} />
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
           {filteredLapangan.map((lapangan) => (
@@ -136,11 +138,13 @@ const DataLapanganPage = () => {
           ))}
         </div>
 
-        <Pagination
-          currentPage={fieldsPage.paging.current_page}
-          totalPages={fieldsPage.paging.total_page}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
+        {filteredLapangan.length > 0 && (
+          <Pagination
+            currentPage={fieldsPage.paging.current_page}
+            totalPages={fieldsPage.paging.total_page}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        )}
 
         {filteredLapangan.length === 0 && (
           <div className="text-center py-12">
