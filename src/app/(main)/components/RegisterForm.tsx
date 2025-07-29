@@ -1,5 +1,5 @@
 "use client";
-import { Eye, EyeOff, Lock, Mail, User2 } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, Phone, User2 } from "lucide-react";
 import React from "react";
 import SocialLogin from "./SocialLogin";
 import SubmitButton from "./SubmitButton";
@@ -14,6 +14,7 @@ type Props = {
     password: string;
     username: string;
     name: string;
+    phone: string;
   };
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
 };
@@ -81,6 +82,17 @@ const RegisterForm = ({
             className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
           />
           <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
+        </div>
+        <div className="relative">
+          <input
+            type="text"
+            name="phone"
+            value={formRegister.phone}
+            onChange={handleInputChange}
+            placeholder="Phone Number"
+            className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl py-4 px-4 pl-12 text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all duration-300"
+          />
+          <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
         </div>
 
         <div className="relative">

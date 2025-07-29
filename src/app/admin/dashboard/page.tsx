@@ -39,13 +39,15 @@ const AdminDashboard: React.FC = () => {
     );
   });
 
-  const todaysBookingsIncome = todaysBookings.reduce((sum, booking) => {
-    return sum + FormatAdmin.calculateTotal(booking);
-  }, 0);
+  const todaysBookingsIncome = todaysBookings
+    .filter((b) => b.status === "CONFIRMED")
+    .reduce((sum, booking) => {
+      return sum + FormatAdmin.calculateTotal(booking);
+    }, 0);
 
   useEffect(() => {
     fetchBooking(1);
-    listUsers();
+    listUsers(1);
     fetchField();
     //eslint-disable-next-line
   }, []);
@@ -56,7 +58,7 @@ const AdminDashboard: React.FC = () => {
       <StatsCard
         todayBookings={todaysBookings.length}
         todayBookingsIncome={todaysBookingsIncome}
-        totalUsers={users.length}
+        totalUsers={users.data.length}
       />
 
       {/* Main Content Grid */}

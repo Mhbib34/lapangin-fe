@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axiosInstance from "@/lib/axiosInstance";
 import { isErrorResponse } from "@/utils/error-response";
 import { showSuccess } from "@/lib/sonnerToast";
-import { User } from "@/type/user";
+import { User, UserPage } from "@/type/user";
 
 type AuthStore = {
   user: User | null;
@@ -10,19 +10,24 @@ type AuthStore = {
   fetchUser: () => Promise<void>;
   logout: () => Promise<void>;
   setUser: (user: User | null) => void;
-  users: User[];
-  listUsers: () => Promise<void>;
-  setListUsers: (user: User[]) => void;
+  users: UserPage;
+  listUsers: (page: number) => Promise<void>;
+  setListUsers: (user: UserPage) => void;
 };
 
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
-  users: [],
+  users: {
+    data: [],
+    paging: {
+      size: 0,
+      total_page: 0,
+      current_page: 0,
+    },
+  },
   loading: true,
   setUser: (user) => set({ user }),
-  setListUsers(user) {
-    set({ users: user });
-  },
+  setListUsers: (users: UserPage) => set({ users }),
   fetchUser: async () => {
     try {
       const res = await axiosInstance.get("/api/users", {
@@ -40,23 +45,31 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const res = await axiosInstance.delete("/api/users", {
         withCredentials: true,
       });
-      set({ user: null });
+      set({ user: null, loading: false });
       showSuccess(res.data.message);
     } catch (error) {
+      set({ loading: false });
       isErrorResponse(error, "Logout failed. Please try again.");
     }
   },
 
-  listUsers: async () => {
+  listUsers: async (page: number = 1) => {
     try {
       const res = await axiosInstance.get("/api/users/list", {
+        params: { page },
         withCredentials: true,
       });
-      set({ users: res.data.data, loading: false });
-      console.log(res.data.data);
-      //eslint-disable-next-line
+      set({ users: res.data, loading: false });
+      console.log(res.data);
     } catch (error) {
-      set({ users: [], loading: false });
+      set({
+        users: {
+          data: [],
+          paging: { size: 0, total_page: 0, current_page: 0 },
+        },
+        loading: false,
+      });
+      console.error("Gagal mengambil data field", error);
     }
   },
 }));
