@@ -1,12 +1,13 @@
 import { booking } from "@/type/bookings";
 
 export class Format {
-  static currency(value: number) {
+  static formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR",
-    }).format(value);
-  }
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
 
   static formatDate = (dateRaw: string | Date) => {
     const date = new Date(dateRaw);
