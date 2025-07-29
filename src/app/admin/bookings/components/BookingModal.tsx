@@ -154,13 +154,6 @@ const BookingModal = ({ selectedBooking, setShowDetailModal }: Props) => {
                   {Format.formatTime(selectedBooking.createdAt)}
                 </span>
               </div>
-              {/* <div className="flex justify-between text-sm">
-                        <span className="text-blue-100/80">Terakhir diupdate:</span>
-                        <span className="text-white">
-                          {formatDate(selectedBooking.updatedAt)}{" "}
-                          {formatTime(selectedBooking.updatedAt)}
-                        </span>
-                      </div> */}
             </div>
           </div>
         </div>

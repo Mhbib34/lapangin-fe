@@ -1,5 +1,6 @@
 import { showConfirm } from "@/lib/sonnerToast";
 import { Field } from "@/type/fields";
+import { getLapanganStatusColor } from "@/utils/status";
 import { Clock, Edit, MapPin, Trash2, Users } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -11,19 +12,6 @@ type Props = {
 };
 
 const LapanganCard = ({ lapangan, removeLapangan, editLapangan }: Props) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "ACTIVE":
-        return "text-emerald-400 bg-emerald-400/20";
-      case "NONACTIVE":
-        return "text-red-400 bg-red-400/20";
-      case "MAINTENANCE":
-        return "text-amber-400 bg-amber-400/20";
-      default:
-        return "text-gray-400 bg-gray-400/20";
-    }
-  };
-
   const handleEdit = () => {
     editLapangan(lapangan);
   };
@@ -43,7 +31,7 @@ const LapanganCard = ({ lapangan, removeLapangan, editLapangan }: Props) => {
         />
         <div className="absolute top-4 right-4">
           <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+            className={`px-3 py-1 rounded-full text-xs font-medium ${getLapanganStatusColor(
               lapangan.status!
             )}`}
           >

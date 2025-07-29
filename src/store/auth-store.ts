@@ -10,12 +10,19 @@ type AuthStore = {
   fetchUser: () => Promise<void>;
   logout: () => Promise<void>;
   setUser: (user: User | null) => void;
+  users: User[];
+  listUsers: () => Promise<void>;
+  setListUsers: (user: User[]) => void;
 };
 
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
+  users: [],
   loading: true,
   setUser: (user) => set({ user }),
+  setListUsers(user) {
+    set({ users: user });
+  },
   fetchUser: async () => {
     try {
       const res = await axiosInstance.get("/api/users", {
@@ -37,6 +44,19 @@ export const useAuthStore = create<AuthStore>((set) => ({
       showSuccess(res.data.message);
     } catch (error) {
       isErrorResponse(error, "Logout failed. Please try again.");
+    }
+  },
+
+  listUsers: async () => {
+    try {
+      const res = await axiosInstance.get("/api/users/list", {
+        withCredentials: true,
+      });
+      set({ users: res.data.data, loading: false });
+      console.log(res.data.data);
+      //eslint-disable-next-line
+    } catch (error) {
+      set({ users: [], loading: false });
     }
   },
 }));
