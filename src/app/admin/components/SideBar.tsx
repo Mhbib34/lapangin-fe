@@ -1,8 +1,6 @@
 import {
-  BarChart3,
   Calendar,
   ChevronDown,
-  CreditCard,
   Home,
   MapPin,
   Settings,
@@ -50,18 +48,6 @@ const SideBar = ({ sidebarCollapsed, setSidebarCollapsed }: SideBarProps) => {
       label: "Pengguna",
       icon: <Users size={20} />,
       active: pathName === "/admin/users",
-    },
-    {
-      path: "/admin/payments",
-      label: "Pembayaran",
-      icon: <CreditCard size={20} />,
-      active: pathName === "/admin/payments",
-    },
-    {
-      path: "/admin/reports",
-      label: "Laporan",
-      icon: <BarChart3 size={20} />,
-      active: pathName === "/admin/reports",
     },
     {
       path: "/admin/settings",
