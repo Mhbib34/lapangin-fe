@@ -99,7 +99,7 @@ const Pagination: React.FC<PaginationProps> = ({
       className={`flex items-center justify-center space-x-2 ${className} `}
       aria-label="Pagination Navigation"
     >
-      <span className="mr-2">
+      <span className="mr-2 text-white">
         Page {currentPage} of {totalPages}
       </span>
       {/* Previous Button */}
