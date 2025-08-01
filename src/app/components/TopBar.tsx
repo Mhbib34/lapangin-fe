@@ -1,11 +1,17 @@
 import { AlarmClock, Menu } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 type Props = {
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  currentTime: Date;
 };
 
-const TopBar = ({ setSidebarOpen, currentTime }: Props) => {
+const TopBar = ({ setSidebarOpen }: Props) => {
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setCurrentTime(new Date()); // set waktu pertama kali saat client ready
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
   return (
     <header className="relative z-10 p-4 lg:p-6">
       <div className="backdrop-blur-xl bg-white/10 rounded-3xl p-4 border border-white/20 shadow-2xl">
@@ -23,12 +29,13 @@ const TopBar = ({ setSidebarOpen, currentTime }: Props) => {
               </h1>
               <div>
                 <p className="text-cyan-200/80 text-sm">
-                  {currentTime.toLocaleDateString("id-ID", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {currentTime &&
+                    currentTime.toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                 </p>
               </div>
             </div>
@@ -36,7 +43,12 @@ const TopBar = ({ setSidebarOpen, currentTime }: Props) => {
           <div className="flex items-center space-x-4">
             <div className="text-right hidden sm:flex items-center gap-4">
               <div className="text-white/90 font-mono text-lg">
-                {currentTime.toLocaleTimeString("id-ID")}
+                {currentTime &&
+                  currentTime.toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
               </div>
               <AlarmClock className="w-6 h-6 text-cyan-200/80" />
             </div>

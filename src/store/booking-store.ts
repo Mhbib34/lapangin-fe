@@ -50,7 +50,8 @@ export const useBookingStore = create<BookingStore>((set) => ({
       const res = await axiosInstance.get(`/api/bookings/users`, {
         withCredentials: true,
       });
-      set({ bookingsByUser: res.data, loading: false });
+      set({ bookingsByUser: res.data.data, loading: false });
+      console.log(res.data);
     } catch (error) {
       set({ bookingsByUser: [], loading: false });
       console.error("Gagal mengambil data field", error);

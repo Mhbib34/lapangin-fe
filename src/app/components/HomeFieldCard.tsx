@@ -1,4 +1,4 @@
-import { FieldPage } from "@/type/fields";
+import { Field, FieldPage } from "@/type/fields";
 import { Format } from "@/utils/format";
 import {
   ChevronRight,
@@ -18,6 +18,8 @@ type Props = {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   setSelectedSport: React.Dispatch<React.SetStateAction<string>>;
   setPriceRange: React.Dispatch<React.SetStateAction<number[]>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedField: React.Dispatch<React.SetStateAction<Field | null>>;
 };
 
 const HomeFieldCard = ({
@@ -25,6 +27,8 @@ const HomeFieldCard = ({
   setSearchTerm,
   setSelectedSport,
   setPriceRange,
+  setIsModalOpen,
+  setSelectedField,
 }: Props) => {
   return (
     <section className="mb-12">
@@ -160,6 +164,10 @@ const HomeFieldCard = ({
                     <MessageCircle className="w-4 h-4" />
                   </button>
                   <button
+                    onClick={() => {
+                      setSelectedField(field); // kirim data field ke state
+                      setIsModalOpen(true); // buka modal
+                    }}
                     className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105 flex items-center space-x-2"
                     disabled={!field.status}
                   >
