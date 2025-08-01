@@ -31,6 +31,22 @@ export class Format {
       minute: "2-digit",
     }).format(date);
   };
+
+  static calculateDuration = (
+    startTimeRaw: Date | string,
+    endTimeRaw: Date | string
+  ) => {
+    const startTime = new Date(startTimeRaw);
+    const endTime = new Date(endTimeRaw);
+
+    if (isNaN(startTime.getTime()) || isNaN(endTime.getTime())) {
+      return 0; // atau bisa lempar error jika perlu
+    }
+
+    const diffMs = endTime.getTime() - startTime.getTime();
+    const diffHours = diffMs / (1000 * 60 * 60);
+    return diffHours;
+  };
 }
 
 export class FormatAdmin {

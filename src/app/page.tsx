@@ -5,7 +5,6 @@ import { useShallow } from "zustand/shallow";
 import PremiumGlassLoader from "@/components/LoadingAnimations";
 import HomeFieldCard from "./components/HomeFieldCard";
 import HomeSearchFilters from "./components/HomeSearchFilters";
-import { useBookingStore } from "@/store/booking-store";
 import UsersSidebar from "./components/UsersSidebar";
 import TopBar from "./components/TopBar";
 import PopularFeatures from "./components/PopularFeatures";
@@ -13,17 +12,20 @@ import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import Pagination from "./admin/components/Pagination";
 import { useDebouncedValue } from "@/utils/useDebounce";
+import FieldBookingModal from "./components/FieldBookingModal";
+import { Field } from "@/type/fields";
 
 const HomePage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSport, setSelectedSport] = useState<string>("Semua");
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sortBy, setSortBy] = useState("popular");
   const [priceRange, setPriceRange] = useState([0, 200000]);
   const [showFilters, setShowFilters] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedField, setSelectedField] = useState<Field | null>(null);
   const useDebounce = useDebouncedValue(searchTerm, 500);
 
   const { fetchFieldPage, fieldsPage, loading } = useFieldStore(
@@ -34,25 +36,12 @@ const HomePage: React.FC = () => {
     }))
   );
 
-  const { fetchBookingByUser, bookingsByUser } = useBookingStore(
-    useShallow((s) => ({
-      fetchBookingByUser: s.fetchBookingByUser,
-      bookingsByUser: s.bookingsByUser,
-    }))
-  );
-
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
   useEffect(() => {
     fetchFieldPage(currentPage, {
       name: useDebounce,
       location: useDebounce,
       category: useDebounce,
     });
-    fetchBookingByUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, useDebounce]);
 
@@ -73,16 +62,15 @@ const HomePage: React.FC = () => {
         sidebarCollapsed={sidebarCollapsed}
         setSidebarCollapsed={setSidebarCollapsed}
         setSidebarOpen={setSidebarOpen}
-        bookingsByUser={bookingsByUser}
       />
       {/* Main Content */}
       <div
         className={`transition-all duration-300 ${
-          sidebarCollapsed ? "lg:ml-20" : "lg:ml-80"
+          sidebarCollapsed ? "lg:ml-24" : "lg:ml-80"
         }`}
       >
         {/* Top Bar */}
-        <TopBar setSidebarOpen={setSidebarOpen} currentTime={currentTime} />
+        <TopBar setSidebarOpen={setSidebarOpen} />
 
         {/* Content Area */}
         <div className="p-4 lg:p-6">
@@ -107,11 +95,19 @@ const HomePage: React.FC = () => {
               setSearchTerm={setSearchTerm}
               setSelectedSport={setSelectedSport}
               setPriceRange={setPriceRange}
+              setIsModalOpen={setIsModalOpen}
+              setSelectedField={setSelectedField}
             />
             <Pagination
               currentPage={fieldsPage.paging.current_page}
               totalPages={fieldsPage.paging.total_page}
               onPageChange={(page) => setCurrentPage(page)}
+            />
+
+            <FieldBookingModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              field={selectedField!}
             />
             {/* Popular Features Section */}
             <PopularFeatures />

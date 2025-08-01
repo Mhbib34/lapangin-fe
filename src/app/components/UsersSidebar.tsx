@@ -1,6 +1,7 @@
+"use client";
 import { showConfirm } from "@/lib/sonnerToast";
 import { useAuthStore } from "@/store/auth-store";
-import { booking } from "@/type/bookings";
+import { useBookingStore } from "@/store/booking-store";
 import { BookOpen, History, Home, Menu, Settings, User, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,7 +12,6 @@ type Props = {
   sidebarCollapsed: boolean;
   setSidebarCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  bookingsByUser: booking[];
 };
 
 const UsersSidebar = ({
@@ -19,13 +19,17 @@ const UsersSidebar = ({
   sidebarCollapsed,
   setSidebarCollapsed,
   setSidebarOpen,
-  bookingsByUser,
 }: Props) => {
   const router = useRouter();
   const { user, logout } = useAuthStore(
     useShallow((s) => ({
       logout: s.logout,
       user: s.user,
+    }))
+  );
+  const { bookingsByUser } = useBookingStore(
+    useShallow((s) => ({
+      bookingsByUser: s.bookingsByUser,
     }))
   );
 
@@ -47,7 +51,7 @@ const UsersSidebar = ({
       id: "bookings",
       icon: BookOpen,
       label: "Booking Saya",
-      count: bookingsByUser.length,
+      count: bookingsByUser?.length,
       path: "/bookings",
       active: path === "/bookings",
     },
@@ -92,7 +96,7 @@ const UsersSidebar = ({
     <div
       className={`fixed inset-y-0 left-0 z-50 backdrop-blur-xl bg-black/20 border-r border-white/20 transform transition-all duration-300 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } lg:translate-x-0 ${sidebarCollapsed ? "lg:w-20" : "lg:w-80"} w-80`}
+      } lg:translate-x-0 ${sidebarCollapsed ? "lg:w-24" : "lg:w-80"} w-80`}
     >
       <div className="flex flex-col h-full">
         {/* Sidebar Header */}
@@ -158,7 +162,7 @@ const UsersSidebar = ({
                   </div>
                   {!sidebarCollapsed &&
                     item.count !== null &&
-                    item.count > 0 && (
+                    item.count! > 0 && (
                       <span className="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs font-semibold">
                         {item.count}
                       </span>
@@ -166,7 +170,7 @@ const UsersSidebar = ({
                   {sidebarCollapsed &&
                     item.count !== null &&
                     item.count > 0 && (
-                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-cyan-500 text-white rounded-full text-xs flex items-center justify-center font-semibold">
+                      <span className="absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 text-white rounded-full text-xs flex items-center justify-center font-semibold">
                         {item.count > 9 ? "9+" : item.count}
                       </span>
                     )}
