@@ -14,6 +14,7 @@ import Pagination from "./admin/components/Pagination";
 import { useDebouncedValue } from "@/utils/useDebounce";
 import FieldBookingModal from "./components/FieldBookingModal";
 import { Field } from "@/type/fields";
+import { useAuthStore } from "@/store/auth-store";
 
 const HomePage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,6 +34,11 @@ const HomePage: React.FC = () => {
       fetchFieldPage: s.fetchFieldPage,
       fieldsPage: s.fieldsPage,
       loading: s.loading,
+    }))
+  );
+  const { user } = useAuthStore(
+    useShallow((s) => ({
+      user: s.user,
     }))
   );
 
@@ -70,7 +76,7 @@ const HomePage: React.FC = () => {
         }`}
       >
         {/* Top Bar */}
-        <TopBar setSidebarOpen={setSidebarOpen} />
+        <TopBar setSidebarOpen={setSidebarOpen} user={user} />
 
         {/* Content Area */}
         <div className="p-4 lg:p-6">

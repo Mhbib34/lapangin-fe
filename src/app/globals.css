@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @plugin 'tailwind-scrollbar';
 
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+
 @keyframes gradient-move {
   0% {
     background-position: 0% 50%;

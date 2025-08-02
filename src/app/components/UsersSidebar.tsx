@@ -1,19 +1,7 @@
 "use client";
-import { showConfirm } from "@/lib/sonnerToast";
 import { useAuthStore } from "@/store/auth-store";
 import { useBookingStore } from "@/store/booking-store";
-import {
-  BookOpen,
-  History,
-  Home,
-  Menu,
-  Settings,
-  User,
-  X,
-  Info,
-  ChevronUp,
-  ChevronDown,
-} from "lucide-react";
+import { BookOpen, Home, Menu, User, X, Info, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useShallow } from "zustand/shallow";
@@ -76,28 +64,12 @@ const UsersSidebar = ({
       active: path === "/bookings",
     },
     {
-      id: "history",
-      icon: History,
-      label: "Riwayat",
-      count: null,
-      path: "/history",
-      active: path === "/history",
-    },
-    {
       id: "profile",
       icon: User,
       label: "Profil",
       count: null,
       path: "/profile",
       active: path === "/profile",
-    },
-    {
-      id: "settings",
-      icon: Settings,
-      label: "Pengaturan",
-      count: null,
-      path: "/settings",
-      active: path === "/settings",
     },
   ];
 

@@ -1,14 +1,16 @@
+import { User } from "@/type/user";
 import { AlarmClock, Menu } from "lucide-react";
 import React, { useEffect, useState } from "react";
 type Props = {
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  user: User | null;
 };
 
-const TopBar = ({ setSidebarOpen }: Props) => {
+const TopBar = ({ setSidebarOpen, user }: Props) => {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
   useEffect(() => {
-    setCurrentTime(new Date()); // set waktu pertama kali saat client ready
+    setCurrentTime(new Date());
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
@@ -25,7 +27,7 @@ const TopBar = ({ setSidebarOpen }: Props) => {
             </button>
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-white">
-                Selamat Datang!
+                {user ? `Selamat Datang, ${user.name}!` : "Selamat Datang!"}
               </h1>
               <div>
                 <p className="text-cyan-200/80 text-sm">
