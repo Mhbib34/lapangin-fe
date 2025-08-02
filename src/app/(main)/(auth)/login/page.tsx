@@ -28,12 +28,12 @@ const LoginPage = () => {
     try {
       const res = await axiosInstance.post("/api/users/login", formLogin);
       showSuccess(res.data.message);
-      refetchUser();
       if (res.data.data.role === "ADMIN") {
         router.push("/admin/dashboard");
       } else {
         router.push("/");
       }
+      refetchUser();
     } catch (error) {
       setIsLoading(false);
       isErrorResponse(error, "Login failed. Please try again.");
